@@ -80,7 +80,7 @@ class Comedero {
 	private int comida = 0;// se crea la variable comida que nos indica si se ha
 							// comido / si hay comida.
 
-	public synchronized void alimentar() {//  MÉTODO SINCRONIZADO ALIMENTAR
+	public synchronized void alimentar() {// MÉTODO SINCRONIZADO ALIMENTAR
 		while (comida != 0) { // si hay comida
 			try {
 				this.wait();// detiene el hilo hasta poder continuar
@@ -94,7 +94,7 @@ class Comedero {
 
 	}
 
-	public synchronized void comer() {//  MÉTODO SINCRONIZADO COMER
+	public synchronized void comer() {// MÉTODO SINCRONIZADO COMER
 		while (comida == 0) { // si no hay comida
 			try {
 				this.wait();// detiene el hilo hasta poder continuar
@@ -109,18 +109,25 @@ class Comedero {
 	}
 }
 
+/**
+ * La clase Granja se encarga del main y la creacion de los distintos hilos
+ * 
+ * @author fernando.sanchez
+ *
+ */
 public class Granja {
 	public static void main(String[] args) throws InterruptedException {
 
-		Comedero com = new Comedero();
-		Thread pastor = new Pastor(com);
-		pastor.start();
+		Comedero com = new Comedero();// se crea el comedero
+		Thread pastor = new Pastor(com);// se crea el pastor
+		pastor.start();// se lanza el pastor
 		// pastor.join();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 20; i++) {// se lanzan 20 ovejas
 			Thread obeja = new Oveja(com);
-			obeja.start();
-			obeja.join();
+			obeja.start();// se lanzan
+			obeja.join();// esta fila es opcional si se desea que cada oveja
+							// espere a la anterior para comer
 		}
 
 	}
